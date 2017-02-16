@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             public void onClick(View view) {
                 //AsyncHttp post = new AsyncHttp("Android", 10.11);
                 //AsyncHttp post = new AsyncHttp("Location", lat, lng);
-                String value = "[" + lat + "]" + "[" + lng + "]";
-                AsyncHttp post = new AsyncHttp("[lat][lng]", value);
+                String value = lat + "," + lng;
+                AsyncHttp post = new AsyncHttp("緯度,経度", value);
                 post.execute();
 
             }
@@ -74,9 +74,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //Locationの権限を要求
             requestLocationPermission();
         }
-        else {
-            locationManager = null;
-        }
+
     }
 
 
@@ -94,9 +92,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
         if(requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     new AlertDialog.Builder(this)
                             .setTitle("パーミッション取得エラー")
